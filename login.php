@@ -25,4 +25,24 @@
 //  {
 //  $level=$row['position'];
 //  }
+//Check whether the query was successful or not
+	if($result) {
+		if(mysql_num_rows($result) > 0) {
+			//Login Successful
+			session_regenerate_id();
+			$member = mysql_fetch_assoc($result);
+			$_SESSION['SESS_MEMBER_ID'] = $member['id'];
+			$_SESSION['SESS_FIRST_NAME'] = $member['username'];
+			session_write_close();
+			//if ($level="admin"){
+			header("location: admin/dashboard.php");
+			exit();
+		}else {
+			//Login failed
+			header("location: index.php");
+			exit();
+		}
+	}else {
+		die("Query failed");
+	}
 ?>
